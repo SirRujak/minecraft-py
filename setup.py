@@ -28,15 +28,19 @@ class BuildMalmo(build):
         bits, linkage = platform.architecture()
         if system == 'Linux':
             dist, version, vername = platform.linux_distribution()
-            if dist == 'Ubuntu' and version > '16.04':
-                version = '16.04'
             folder = 'Malmo-0.18.0-{}-{}-{}-{}'.format(system, dist, version, bits)
         else:
             folder = 'Malmo-0.18.0-{}-{}'.format(system, bits)
         url = 'https://github.com/Microsoft/malmo/releases/download/0.18.0/{}.zip'.format(folder)
 
-        print("Downloading Malmo...")
-        urlretrieve(url, 'Malmo.zip')
+        try:
+            print("Downloading Malmo from {}...".format(url))
+            urlretrieve(url, 'Malmo.zip')
+        except:
+            folder = 'Malmo-0.18.0-Linux-Ubuntu-16.04-64bit'
+            url = 'https://github.com/Microsoft/malmo/releases/download/0.18.0/{}.zip'.format(folder)
+            print("Failed to download, attempting to download {}...".format(url))
+            urlretrieve(url, 'Malmo.zip')
         
         print("Unzipping Malmo...")
         zip = zipfile.ZipFile('Malmo.zip')
