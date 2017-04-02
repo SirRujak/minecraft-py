@@ -28,6 +28,8 @@ class BuildMalmo(build):
         bits, linkage = platform.architecture()
         if system == 'Linux':
             dist, version, vername = platform.linux_distribution()
+            if dist == 'Ubuntu' and version > '16.04':
+                version = '16.04'
             folder = 'Malmo-0.18.0-{}-{}-{}-{}'.format(system, dist, version, bits)
         else:
             folder = 'Malmo-0.18.0-{}-{}'.format(system, bits)
